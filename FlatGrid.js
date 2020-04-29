@@ -1,10 +1,7 @@
-import React from 'react';
-import {
-  View, Dimensions, ViewPropTypes, FlatList,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import { chunkArray, calculateDimensions, generateStyles } from './utils';
-
+import React from "react";
+import { View, Dimensions, ViewPropTypes, FlatList } from "react-native";
+import PropTypes from "prop-types";
+import { chunkArray, calculateDimensions, generateStyles } from "./utils";
 
 class FlatGrid extends React.Component {
   constructor(props) {
@@ -19,8 +16,8 @@ class FlatGrid extends React.Component {
     let totalDimension = staticDimension;
 
     if (!staticDimension) {
-      const dimension = horizontal ? 'height' : 'width';
-      totalDimension = Dimensions.get('window')[dimension];
+      const dimension = horizontal ? "height" : "width";
+      totalDimension = Dimensions.get("window")[dimension];
     }
 
     this.state = {
@@ -59,7 +56,13 @@ class FlatGrid extends React.Component {
     containerStyle,
   }) {
     const {
-      spacing, horizontal, itemContainerStyle, renderItem, keyExtractor,
+      spacing,
+      horizontal,
+      itemContainerStyle,
+      renderItem,
+      keyExtractor,
+      renderMenuIndex,
+      renderMenu,
     } = this.props;
 
     // To make up for the top padding
@@ -73,14 +76,19 @@ class FlatGrid extends React.Component {
 
     return (
       <View style={[rowStyle, additionalRowStyle]}>
+        {renderMenuIndex === rowIndex ? renderMenu() : null}
         {rowItems.map((item, i) => (
           <View
-            key={keyExtractor ? keyExtractor(item, i) : `item_${(rowIndex * itemsPerRow) + i}`}
+            key={
+              keyExtractor
+                ? keyExtractor(item, i)
+                : `item_${rowIndex * itemsPerRow + i}`
+            }
             style={[containerStyle, itemContainerStyle]}
           >
             {renderItem({
               item,
-              index: (rowIndex * itemsPerRow) + i,
+              index: rowIndex * itemsPerRow + i,
               separators,
               rowIndex,
             })}
@@ -108,7 +116,11 @@ class FlatGrid extends React.Component {
 
     const { totalDimension } = this.state;
 
-    const { containerDimension, itemsPerRow, fixedSpacing } = calculateDimensions({
+    const {
+      containerDimension,
+      itemsPerRow,
+      fixedSpacing,
+    } = calculateDimensions({
       itemDimension,
       staticDimension,
       totalDimension,
@@ -130,34 +142,41 @@ class FlatGrid extends React.Component {
     return (
       <FlatList
         data={rows}
-        renderItem={({ item, index }) => this.renderRow({
-          rowItems: item,
-          rowIndex: index,
-          isLastRow: index === rows.length - 1,
-          itemsPerRow,
-          rowStyle,
-          containerStyle,
-        })
+        renderItem={({ item, index }) =>
+          this.renderRow({
+            rowItems: item,
+            rowIndex: index,
+            isLastRow: index === rows.length - 1,
+            itemsPerRow,
+            rowStyle,
+            containerStyle,
+          })
         }
         style={[
           {
-            ...(horizontal ? { paddingLeft: spacing } : { paddingTop: spacing }),
+            ...(horizontal
+              ? { paddingLeft: spacing }
+              : { paddingTop: spacing }),
           },
           style,
         ]}
         onLayout={this.onLayout}
         keyExtractor={(rowItems, index) => {
           if (keyExtractor) {
-            return rowItems.map((rowItem, rowItemIndex) => {
-              return keyExtractor(rowItem, rowItemIndex)
-            }).join('_')
+            return rowItems
+              .map((rowItem, rowItemIndex) => {
+                return keyExtractor(rowItem, rowItemIndex);
+              })
+              .join("_");
           } else {
-            return `row_${index}`
+            return `row_${index}`;
           }
         }}
         {...restProps}
         horizontal={horizontal}
-        ref={(flatList) => { this.flatList = flatList; }}
+        ref={(flatList) => {
+          this.flatList = flatList;
+        }}
       />
     );
   }

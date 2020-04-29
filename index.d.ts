@@ -7,16 +7,16 @@ import {
   StyleProp,
   RefreshControlProps,
   SectionListProps,
-  FlatListProps
-} from "react-native"
+  FlatListProps,
+} from "react-native";
 
 // Copy from TS 3.5
-type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>
+type Omit<T, K extends keyof any> = Pick<T, Exclude<keyof T, K>>;
 
 // Grid item info, same as original + rowIndex
 export type GridRenderItemInfo<ItemT> = ListRenderItemInfo<ItemT> & {
   rowIndex: number;
-}
+};
 
 export type GridRenderItem<ItemT> = (
   info: GridRenderItemInfo<ItemT>
@@ -46,23 +46,26 @@ type CommonProps<ItemType> = {
    * to that dimension size and avoid the reflow associated with dynamically calculating it
    */
   staticDimension?: number;
-}
+};
 
 // Original flat list component props
-type FlatListAllowedProps<ItemType = any> = Omit<FlatListProps<ItemType>,
-  | "data"
->
+type FlatListAllowedProps<ItemType = any> = Omit<
+  FlatListProps<ItemType>,
+  "data"
+>;
 
 /**
  * React Native Super Grid Properties
  */
 export interface FlatGridProps<ItemType = any>
-  extends FlatListAllowedProps<ItemType>, CommonProps<ItemType> {
+  extends FlatListAllowedProps<ItemType>,
+    CommonProps<ItemType> {
   /**
    * Items to be rendered. renderItem will be called with each item in this array.
    */
   items: ItemType[];
-
+  renderMenuIndex?: number;
+  renderMenu?: ListRenderItem<ItemT> | null | undefined;
   /**
    * Specifies the style about content row view
    */
@@ -80,17 +83,18 @@ export type SectionItem<ItemType> = {
   title: string;
   data: ItemType[];
   renderItem?: GridRenderItem<ItemType>;
-}
+};
 
 // Original section list component props
-type SectionGridAllowedProps<ItemType = any> = Omit<SectionListProps<ItemType>,
+type SectionGridAllowedProps<ItemType = any> = Omit<
+  SectionListProps<ItemType>,
   //  This prop doesn't affect the SectionGrid, which only scrolls vertically.
-  | "horizontal" | "sections"
->
+  "horizontal" | "sections"
+>;
 
 export interface SectionGridProps<ItemType = any>
-  extends SectionGridAllowedProps<ItemType>, CommonProps<ItemType> {
-
+  extends SectionGridAllowedProps<ItemType>,
+    CommonProps<ItemType> {
   sections: SectionItem<ItemType>[];
 }
 
