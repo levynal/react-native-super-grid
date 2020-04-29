@@ -75,25 +75,27 @@ class FlatGrid extends React.Component {
     }
 
     return (
-      <View style={[rowStyle, additionalRowStyle]}>
+      <View style={{ flexDirection: "column" }}>
         {renderMenuIndex === rowIndex ? renderMenu() : null}
-        {rowItems.map((item, i) => (
-          <View
-            key={
-              keyExtractor
-                ? keyExtractor(item, i)
-                : `item_${rowIndex * itemsPerRow + i}`
-            }
-            style={[containerStyle, itemContainerStyle]}
-          >
-            {renderItem({
-              item,
-              index: rowIndex * itemsPerRow + i,
-              separators,
-              rowIndex,
-            })}
-          </View>
-        ))}
+        <View style={[rowStyle, additionalRowStyle]}>
+          {rowItems.map((item, i) => (
+            <View
+              key={
+                keyExtractor
+                  ? keyExtractor(item, i)
+                  : `item_${rowIndex * itemsPerRow + i}`
+              }
+              style={[containerStyle, itemContainerStyle]}
+            >
+              {renderItem({
+                item,
+                index: rowIndex * itemsPerRow + i,
+                separators,
+                rowIndex,
+              })}
+            </View>
+          ))}
+        </View>
       </View>
     );
   }
