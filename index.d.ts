@@ -64,7 +64,7 @@ export interface FlatGridProps<ItemType = any>
    * Items to be rendered. renderItem will be called with each item in this array.
    */
   items: ItemType[];
-  renderMenuIndex?: number;
+  menuIndex?: number;
   menuPosition?: "top" | "bottom";
   renderMenu?: ListRenderItem<ItemT> | null | undefined;
   /**
