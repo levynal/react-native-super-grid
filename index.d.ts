@@ -65,6 +65,7 @@ export interface FlatGridProps<ItemType = any>
    */
   items: ItemType[];
   renderMenuIndex?: number;
+  menuPosition?: "top" | "bottom";
   renderMenu?: ListRenderItem<ItemT> | null | undefined;
   /**
    * Specifies the style about content row view

@@ -61,8 +61,9 @@ class FlatGrid extends React.Component {
       itemContainerStyle,
       renderItem,
       keyExtractor,
-      renderMenuIndex,
+      menuIndex,
       renderMenu,
+      menuPosition,
     } = this.props;
 
     // To make up for the top padding
@@ -76,6 +77,11 @@ class FlatGrid extends React.Component {
 
     return (
       <View style={{ flexDirection: "column" }}>
+        {menuPosition == "top"
+          ? menuIndex === rowIndex
+            ? renderMenu()
+            : null
+          : null}
         <View style={[rowStyle, additionalRowStyle]}>
           {rowItems.map((item, i) => (
             <View
@@ -95,7 +101,11 @@ class FlatGrid extends React.Component {
             </View>
           ))}
         </View>
-        {renderMenuIndex === rowIndex ? renderMenu() : null}
+        {menuPosition == "bottom"
+          ? menuIndex === rowIndex
+            ? renderMenu()
+            : null
+          : null}
       </View>
     );
   }
