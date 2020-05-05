@@ -74,14 +74,12 @@ class FlatGrid extends React.Component {
         ...(horizontal ? { marginRight: spacing } : {}),
       };
     }
-
+    const showMenu =
+      menuIndex >= rowIndex * itemsPerRow &&
+      menuIndex < rowIndex * itemsPerRow + rowItems.length;
     return (
       <View style={{ flexDirection: "column" }}>
-        {menuPosition == "top"
-          ? menuIndex === rowIndex
-            ? renderMenu()
-            : null
-          : null}
+        {menuPosition == "top" ? (showMenu ? renderMenu() : null) : null}
         <View style={[rowStyle, additionalRowStyle]}>
           {rowItems.map((item, i) => (
             <View
@@ -101,11 +99,7 @@ class FlatGrid extends React.Component {
             </View>
           ))}
         </View>
-        {menuPosition == "bottom"
-          ? menuIndex === rowIndex
-            ? renderMenu()
-            : null
-          : null}
+        {menuPosition == "bottom" ? (showMenu ? renderMenu() : null) : null}
       </View>
     );
   }
