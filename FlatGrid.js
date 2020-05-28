@@ -79,7 +79,11 @@ class FlatGrid extends React.Component {
       menuIndex < rowIndex * itemsPerRow + rowItems.length;
     return (
       <View style={{ flexDirection: "column" }}>
-        {menuPosition == "top" ? (showMenu ? renderMenu() : null) : null}
+        {menuPosition == "top"
+          ? showMenu
+            ? renderMenu(itemsPerRow)
+            : null
+          : null}
         <View style={[rowStyle, additionalRowStyle]}>
           {rowItems.map((item, i) => (
             <View
@@ -99,7 +103,11 @@ class FlatGrid extends React.Component {
             </View>
           ))}
         </View>
-        {menuPosition == "bottom" ? (showMenu ? renderMenu() : null) : null}
+        {menuPosition == "bottom"
+          ? showMenu
+            ? renderMenu(itemsPerRow)
+            : null
+          : null}
       </View>
     );
   }
